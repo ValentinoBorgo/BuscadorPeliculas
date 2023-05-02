@@ -1,0 +1,43 @@
+#pagina{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+}
+
+main{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+form{
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.peliculas{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 32px;
+}
+
+.peli{
+  text-align: center;
+}
+
+.peli h3, .peli p{
+  margin: 0;
+}
+
+.peli img{
+  border-radius: 8px;
+  margin-top: 16px;
+}
