@@ -3,10 +3,13 @@ import React, { useState } from "react";
 // import noresults from '../mokcs/no-result.json';
 import { buscarPeliculas } from "../servicios/peliculas";
 import { useRef } from "react";
+import { useMemo } from "react";
+import { useCallback } from "react";
 // El useRef es una referencia mutable que persiste
+// El useMemo memoiza un valor para no tener que volverlo a calcular
+// El useCallback lo mismo que el usememo pero para funciones.
 
-
-export function usePeliculas({buscar}){
+export function usePeliculas({buscar, sort}){
     
     const [peliculas, setPeliculas] = useState([]);
     const [carga, setCarga] = useState(false);
@@ -15,7 +18,7 @@ export function usePeliculas({buscar}){
 
   
 
-    const getPeliculas = async () =>{
+    const getPeliculas = useCallback(async ({buscar}) =>{
         if(buscar === busquedaAnterior.current) return
         try{
             setCarga(true);
@@ -30,7 +33,17 @@ export function usePeliculas({buscar}){
         }finally{
             setCarga(false);
         }
-    }
+    },[]);
 
-    return {peliculas, getPeliculas, error, carga};
+    // const sortPeliculas = sort 
+    // ? [...peliculas].sort((a,b) => a.title.localeCompare(b.title))
+    // : peliculas
+
+    const sortPeliculas = useMemo(() =>  {
+        return sort
+        ? [...peliculas].sort((a,b) => a.title.localeCompare(b.title))
+        : peliculas
+    },[sort,peliculas])
+
+    return {peliculas : sortPeliculas, getPeliculas, carga};
   }
